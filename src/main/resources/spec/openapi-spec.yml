@@ -1,0 +1,48 @@
+openapi: 3.0.2
+info:
+  title: EchoGatewayAPI
+  description: This is the EchoGatewayAPI
+  version: '0.1'
+servers:
+  - url: http://localhost:8085/
+
+
+tags:
+  - name: Echo
+    description: Echoes the input through Echo backend server
+    
+components:
+  securitySchemes:
+    oAuthSample:  
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      flows:
+        implicit:  
+          authorizationUrl: https://api.example.com/oauth2/authorize
+          scopes:
+            vz_test: Allows only users of vz_test scope                    
+
+security: 
+  - oAuthSample: 
+    - vz_test
+
+paths:
+
+  /echo:   
+    get:
+      summary: Echoes the input through Echo backend server
+      operationId: callEcho()
+      parameters:
+        - in: query
+          name: param
+          required: false
+          schema:
+            type: String
+          description: The value to be echoed
+      responses:
+        200:
+          description: Echoes the input through Echo backend server
+          content:
+            application/json:
+              schema:
+                type: String                
