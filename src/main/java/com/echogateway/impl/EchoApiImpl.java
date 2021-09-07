@@ -32,14 +32,9 @@ public class EchoApiImpl implements EchoApiDelegate {
 	@Value("${echo.server.url}")
 	private String echoServerUrl;
 
-
 	@Override
-	public ResponseEntity<String> callEcho(@RequestParam String param){
-		return callEchoSecured(param);
-	}	
-
 	@PreAuthorize("#oauth2.hasScope('vz_test')")
-	private ResponseEntity<String> callEchoSecured(String param){
+	public ResponseEntity<String> callEcho(@RequestParam String param){
 		LOG.info("Received params as {}", param);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
@@ -60,8 +55,8 @@ public class EchoApiImpl implements EchoApiDelegate {
 			LOG.info("Failed to get remote resource because: {}", e.getMessage());
 		}
 		return new ResponseEntity<>(null==response?requestJson:response.getBody(), HttpStatus.OK);
-	}
-
+	}	
+	
 	public String getEchoServerUrl() {
 		return echoServerUrl;
 	}
